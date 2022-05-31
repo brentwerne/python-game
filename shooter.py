@@ -78,11 +78,12 @@ def power_up_shooting(power_up_pos, player_pos):  #give power up a function // o
 		if((power_up_pos[1] >= player_pos[1] and power_up_pos[1] <= player_pos[1] + player_size) or (power_up_pos[1] + player_size >= player_pos[1] and power_up_pos[1] + player_size<= player_pos[1] + player_size)):
 			return True
 
-def in_shooting(power_up_pos, player_pos, enemy_list, shooting_balls):		
-	left_ball = [player_pos[0], player_pos[1]]
-	right_ball = [player_pos[0]+50, player_pos[1]]
-	shooting_balls.append(left_ball)
-	shooting_balls.append(right_ball)
+def in_shooting(power_up_pos, player_pos, enemy_list, shooting_balls, shooter_counter):		
+	if (shooter_counter % 6 == 0):
+		left_ball = [player_pos[0], player_pos[1]]
+		right_ball = [player_pos[0]+50, player_pos[1]]
+		shooting_balls.append(left_ball)
+		shooting_balls.append(right_ball)
 
 def shooting(power_up_pos, player_pos, enemy_list, shooting_balls):
 	if(len(shooting_balls) > 1):
@@ -212,14 +213,17 @@ while not game_over:
 
 	if shoot:
 		s = True
+		shooter_counter = 0
 
 
 	if s:
-		if(num < 180):
-			in_shooting(power_up_pos, player_pos, enemy_list, shooting_balls)
+		if(num < 360):
+			in_shooting(power_up_pos, player_pos, enemy_list, shooting_balls, shooter_counter)
 			num = num +	1
+			shooter_counter += 1
 		else:
 			num = 0
+			shooter_counter = 0
 			s = False
 
 	shooting(power_up_pos, player_pos, enemy_list, shooting_balls)
